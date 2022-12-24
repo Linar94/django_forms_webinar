@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Главная страница{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 style="text-align:center">{{ title }}</h1>
+    <article>
+    {% for post in page %}
+        <ul>
+            <li>
+                Автор: {{ post.author.get_full_name }}
+            </li>
+            <li>
+                Дата публикации: {{ post.pub_date }}
+            </li>
+        </ul>
+        <p>
+            {{ post.text }}
+        </p>
+        <p>
+            <a class="p-2 text-dark" href="{% url 'posts:edit_post' post.id %}">Редактировать пост</a>
+        </p>
+        {% if not forloop.last %}<hr>{% endif %}
+    {% endfor %}
+    {% if page.has_other_pages %}
+        {% include "includes/paginator.html" with items=page paginator=page.paginator %}
+    {% endif %}
+    </article><hr>
+</div>
+{% endblock %}
